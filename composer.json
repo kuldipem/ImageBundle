@@ -1,0 +1,39 @@
+{
+    "name": "kem/image-bundle",
+    "type": "symfony-bundle",
+    "description": "A bundle providing fields for image upload with jquery upload and image cropping with jcrop for symfony2",
+    "keywords": ["Form Type", "image", "upload", "crop", "jcrop", "jquery upload"],
+    "homepage": "https://github.com/kem/ImageBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KULDIP PIPALIYA",
+            "email": "kuldipem@gmail.com",
+            "homepage": "http://kuldippipaliya.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-gd": "*",
+        "symfony/http-foundation": "~2.2",
+        "symfony/form": "~2.2",
+        "symfony/validator": "~2.2",
+        "symfony/routing": "~2.2",
+        "symfony/config": "~2.2",
+        "symfony/twig-bridge": "~2.2",
+        "symfony/class-loader":"~2.2",
+        "twig/twig": "~1.12",
+        "twig/extensions": "~1.0",
+        "friendsofsymfony/jsrouting-bundle": "@stable",
+        "jms/translation-bundle": "@stable"
+    },
+    "target-dir": "Kem/ImageBundle",
+    "autoload": {
+        "psr-0": { "Kem\\ImageBundle": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

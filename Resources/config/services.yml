@@ -1,0 +1,19 @@
+parameters:
+    kem_image_type_class: "Kem\ImageBundle\Form\Type\CroppableImageType"
+    kem_gallery_type_class: "Kem\ImageBundle\Form\Type\CroppableGalleryType"
+services:
+    kem_image_bundle.image_type:
+        class: %kem_image_type_class%
+        tags:
+            - { name: form.type, alias: kem_image }
+        # arguments: [%kem_image.translation_domain%]
+    kem_image_bundle.gallery_type:
+        class: %kem_gallery_type_class%
+        tags:
+            - { name: form.type, alias: kem_gallery }
+        arguments: [%kem_image.gallery_dir%, %kem_image.thumbs_dir%, %kem_image.gallery_thumb_size%]
+    kem.twig.thumb_extension:
+        class: Kem\ImageBundle\Twig\ThumbExtension
+        tags:
+            - { name: twig.extension }
+        arguments: [%kem_image.cropped_image_dir%, %kem_image.thumbs_dir%, "@service_container", %kem_image.web_dirname%, %kem_image.translation_domain%, %kem_image.gallery_dir%]
