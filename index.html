@@ -1,0 +1,527 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Imagebundle by kuldipem</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Imagebundle</h1>
+        <p></p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/kuldipem/ImageBundle" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/kuldipem/ImageBundle/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/kuldipem/ImageBundle/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <hr>
+
+<h2>
+<a id="compatibility-with-bootstrap-3x" class="anchor" href="#compatibility-with-bootstrap-3x" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility with bootstrap 3.X</h2>
+
+<h1>
+<a id="kemimagebundle" class="anchor" href="#kemimagebundle" aria-hidden="true"><span class="octicon octicon-link"></span></a>KemImageBundle</h1>
+
+<p>Image upload / crop bundle for Symfony2</p>
+
+<p>This bundle helps you easily create an image upload / crop field in your forms. You don't need to use any type of generator or there is no other requirements.
+It uses bootstrap to make it look well but you can use any other css to customize it.</p>
+
+<p>It uses beautiful <a href="http://blueimp.github.io/jQuery-File-Upload/">Jquery File Upload</a> to upload files (original UploadHandler has been modified to add namespace and a new config parameter to generate random filenames) and <a href="http://deepliquid.com/content/Jcrop.html">JCrop</a> to let you crop uploaded images.</p>
+
+<p>you can also save original file in a separate field** See saveOriginal parameter below.</p>
+
+<p>you can also create sortable &amp; croppable gallery widgets** without any specific configuration. It only needs an array typed property in your entity (and a text column in your database). See below for examples, screenshots and how to use it.</p>
+
+<h2>
+<a id="screen-shots" class="anchor" href="#screen-shots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screen shots</h2>
+
+<p>Here are some screen shots since i didn't have time to put a demo yet:</p>
+
+<h3>
+<a id="simple-image-widget" class="anchor" href="#simple-image-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Image widget</h3>
+
+<p><img src="http://canomur.com/kem-image/images/image_widget_ss1.png" alt="alt tag"></p>
+
+<h3>
+<a id="gallery-widget" class="anchor" href="#gallery-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gallery widget</h3>
+
+<p><img src="http://canomur.com/kem-image/images/gallery_widget_ss1.png" alt="alt tag"></p>
+
+<h3>
+<a id="upload-image-screen" class="anchor" href="#upload-image-screen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upload image screen</h3>
+
+<p><img src="http://canomur.com/kem-image/images/upload_image_ss1.png" alt="alt tag"></p>
+
+<h3>
+<a id="select-image-from-library-screen" class="anchor" href="#select-image-from-library-screen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Select image from library screen</h3>
+
+<p><img src="http://canomur.com/kem-image/images/select_image_ss1.png" alt="alt tag"></p>
+
+<h3>
+<a id="crop-image-screen" class="anchor" href="#crop-image-screen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Crop image screen</h3>
+
+<p><img src="http://canomur.com/kem-image/images/crop_image_ss1.png" alt="alt tag"></p>
+
+<h3>
+<a id="change-gallery-image-order-screen" class="anchor" href="#change-gallery-image-order-screen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change gallery image order screen</h3>
+
+<p><img src="http://canomur.com/kem-image/images/order_image_ss1.png" alt="alt tag"></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>
+<p>Add this bundle to your project in composer.json:</p>
+
+<pre><code>{
+    "require": {
+        "kem/image-bundle": "1.0.*@dev",
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>Register FOSJsRouting and this bundle to your app/AppKernel.php:</p>
+
+<pre><code>// app/AppKernel.php
+public function registerBundles()
+{
+    return array(
+        // ...
+        new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+        new JMS\TranslationBundle\JMSTranslationBundle(),
+        new Kem\ImageBundle\KemImageBundle(),
+        // ...
+    );
+}
+</code></pre>
+</li>
+<li>
+<p>Add this route to your routing.yml:</p>
+
+<pre><code># app/config/routing.yml
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+kem_image:
+    resource: "@KemImageBundle/Resources/config/routing.yml"
+    prefix:   /
+</code></pre>
+</li>
+<li>
+<p>Add Modal template after body tag of your layout:</p>
+
+<pre><code>&lt;body&gt;
+{% include "KemImageBundle:Form:croppable_image_modal.html.twig"%}
+…
+&lt;/body&gt;
+
+</code></pre>
+</li>
+</ol>
+
+<p><strong>Note:</strong> This template includes many script and styles including jquery and bootstrap. You can use following parameters to avoid jquery and/or bootstrap being included:</p>
+
+<pre><code>{% include "KemImageBundle:Form:croppable_image_modal.html.twig" with {'include_jquery': false, 'include_bootstrap': false} %}
+</code></pre>
+
+<ol>
+<li>Do not forget to put <a href="https://github.com/FriendsOfSymfony/FOSJsRoutingBundle">FOSJSRoutingBundle</a> script in your :</li>
+</ol>
+
+<pre><code>    &lt;script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"&gt;&lt;/script&gt;
+    &lt;script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>That's it !</p>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p><br>
+<strong>All parameters are optional:</strong></p>
+
+<pre><code>kem_image:
+    config:
+        cropped_image_dir: 'cropped'
+        thumbs_dir: 'thumbnails'
+        media_lib_thumb_size: 150
+        web_dirname: 'web'
+        translation_domain: 'KemImageBundle'
+        gallery_thumb_size: 150
+        gallery_dir: 'gallery'
+</code></pre>
+
+<h3>
+<a id="cropped_image_dir" class="anchor" href="#cropped_image_dir" aria-hidden="true"><span class="octicon octicon-link"></span></a>cropped_image_dir</h3>
+
+<p>It's used to determine relative directory name to put cropped images (see above).</p>
+
+<p><strong>Default value:</strong> 'cropped'</p>
+
+<h3>
+<a id="thumbs_dir" class="anchor" href="#thumbs_dir" aria-hidden="true"><span class="octicon octicon-link"></span></a>thumbs_dir</h3>
+
+<p>It's used to determine relative directory name to put thumbnails (see above).</p>
+
+<p><strong>Default value:</strong> 'thumbnails'</p>
+
+<h3>
+<a id="media_lib_thumb_size" class="anchor" href="#media_lib_thumb_size" aria-hidden="true"><span class="octicon octicon-link"></span></a>media_lib_thumb_size</h3>
+
+<p>It's used to determine thumbnails size in pixels (squares) used in media library.</p>
+
+<p><strong>Default value:</strong> 150</p>
+
+<h3>
+<a id="upload_dir" class="anchor" href="#upload_dir" aria-hidden="true"><span class="octicon octicon-link"></span></a>upload_dir</h3>
+
+<p>Dirname of your public directory. It's used to check thumb existence in thumb twig helper.</p>
+
+<p><strong>Default value:</strong> 'web'</p>
+
+<h3>
+<a id="translation_domain" class="anchor" href="#translation_domain" aria-hidden="true"><span class="octicon octicon-link"></span></a>translation_domain</h3>
+
+<p>Domain name for translations. For instance two languages are provided (en &amp; fr). To override the domain name, change this parameter to whatever you want.</p>
+
+<p><strong>Default value:</strong> 'KemImageBundle'</p>
+
+<h3>
+<a id="gallery_thumb_size" class="anchor" href="#gallery_thumb_size" aria-hidden="true"><span class="octicon octicon-link"></span></a>gallery_thumb_size</h3>
+
+<p>That's the image size in pixels that you want to show in gallery widget. Gallery widget will automaticaly create square thums having this size and show them in the gallery widget.</p>
+
+<p><strong>Default value:</strong> 150</p>
+
+<h3>
+<a id="gallery_dir" class="anchor" href="#gallery_dir" aria-hidden="true"><span class="octicon octicon-link"></span></a>gallery_dir</h3>
+
+<p>That's the gallery directory name. The widget will store all gallery images in a specific directory inside the root directory that you will give when you will add the widget to your forms.</p>
+
+<p><strong>For eg.</strong> if you put 'uploads/images' as webDir when you add the widget, gallery images will be stored in 'uploads/images/<em>[gallery_dir]</em>'. This is added to make gallery use easier so you don't have to add new functions to your entities to get gallery dirs.</p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>There are two widgets provided with this bundle. They both have exacly same config parameters.</p>
+
+<h2>
+<a id="image-widget" class="anchor" href="#image-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Image widget</h2>
+
+<p>Use widget in your forms (works with SonataAdmin too) to create a simple image field :</p>
+
+<pre><code>public function buildForm(FormBuilderInterface $builder, array $options)
+{
+    // get your entity related with your form type
+    $myEntity = $builder-&gt;getForm()-&gt;getData();
+    ...
+    -&gt;add('image', 'kem_image', array(
+        'uploadConfig' =&gt; array(
+            'uploadRoute' =&gt; 'kem_api_upload',      //optional
+            'uploadUrl' =&gt; $myEntity-&gt;getUploadRootDir(),       // required - see explanation below (you can also put just a dir path)
+            'webDir' =&gt; $myEntity-&gt;getUploadDir(),              // required - see explanation below (you can also put just a dir path)
+            'fileExt' =&gt; '*.jpg;*.gif;*.png;*.jpeg',    //optional
+            'libraryDir' =&gt; null,                       //optional
+            'libraryRoute' =&gt; 'kem_api_image_library', //optional
+            'showLibrary' =&gt; true,                      //optional
+            'saveOriginal' =&gt; 'originalImage'           //optional
+        ),
+        'cropConfig' =&gt; array(
+            'minWidth' =&gt; 588,
+            'minHeight' =&gt; 300,
+            'aspectRatio' =&gt; true,              //optional
+            'cropRoute' =&gt; 'kem_api_crop',  //optional
+            'forceResize' =&gt; false,             //optional
+            'thumbs' =&gt; array(                  //optional
+                array(
+                    'maxWidth' =&gt; 180,
+                    'maxHeight' =&gt; 400,
+                    'useAsFieldImage' =&gt; true  //optional
+                )
+            )
+        )
+    ))
+</code></pre>
+
+<p>You need to create a field (named image in this example but you can choose whatever you want):</p>
+
+<pre><code>// YourBundle\Entity\YourEntity.php
+
+…
+
+/**
+ * @ORM\Column(type="string", length=255, nullable=true)
+ */
+protected $image;
+
+…
+</code></pre>
+
+<p>And create your functions in your entity to have directory paths, for ex :</p>
+
+<pre><code>public function getUploadRootDir()
+{
+    // absolute path to your directory where images must be saved
+    return __DIR__.'/../../../../../web/'.$this-&gt;getUploadDir();
+}
+
+public function getUploadDir()
+{
+    return 'uploads/myentity';
+}
+
+public function getAbsolutePath()
+{
+    return null === $this-&gt;image ? null : $this-&gt;getUploadRootDir().'/'.$this-&gt;image;
+}
+
+public function getWebPath()
+{
+    return null === $this-&gt;image ? null : '/'.$this-&gt;getUploadDir().'/'.$this-&gt;image;
+}
+</code></pre>
+
+<p>That's all ! This will add an image preview with an edit button in your form and will let you upload / select from library and crop images without reloading the page.</p>
+
+<p>To save original image path, you have to create another field and name it same as saveOriginal parameter:</p>
+
+<pre><code>// YourBundle\Entity\YourEntity.php
+
+…
+
+/**
+ * @ORM\Column(type="string", length=255, nullable=true)
+ */
+protected $originalImage;
+
+…
+</code></pre>
+
+<p>I will put a demo soon…</p>
+
+<h2>
+<a id="gallery-widget-1" class="anchor" href="#gallery-widget-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gallery widget</h2>
+
+<p>Use widget in your forms (works with SonataAdmin too) to create a <strong>sortable</strong> list of images (so a gallery :)) stored in an array typed field :</p>
+
+<pre><code>-&gt;add('gallery', 'kem_gallery', array(
+    //same parameters as kem_image
+))
+</code></pre>
+
+<p>And create your array typed field for storing images in it. Doctrine (or other ORM) will serialize this field to store it as string in the DB.</p>
+
+<pre><code>// YourBundle\Entity\YourEntity.php
+
+…
+
+/**
+ * @ORM\Column(type="array", nullable=true)
+ */
+protected $gallery;
+
+…
+</code></pre>
+
+<p>And create your functions in your entity to have directory paths, for ex :</p>
+
+<pre><code>public function getUploadRootDir()
+{
+    // absolute path to your directory where images must be saved
+    return __DIR__.'/../../../../../web/'.$this-&gt;getUploadDir();
+}
+
+public function getUploadDir()
+{
+    return 'uploads/myentity';
+}
+
+public function getAbsolutePath()
+{
+    return null === $this-&gt;image ? null : $this-&gt;getUploadRootDir().'/'.$this-&gt;image;
+}
+
+public function getWebPath()
+{
+    return null === $this-&gt;image ? null : '/'.$this-&gt;getUploadDir().'/'.$this-&gt;image;
+}
+</code></pre>
+
+<p>That's all ! This will create a widget like on the following image when you will use it in your forms. <strong>You can also reorder them since php serialized arrays are ordered</strong>:</p>
+
+<p>Gallery images will be stored in uploadUrl / gallery_dir (default is gallery). Cropped images will be stored in uploadUrl / gallery_dir / cropped_dir (same as image widget) and thumbs in uploadUrl / gallery_dir / cropped_dir / thumb_dir with specified width. So if you pu</p>
+
+<h2>
+<a id="uploadconfig" class="anchor" href="#uploadconfig" aria-hidden="true"><span class="octicon octicon-link"></span></a>uploadConfig</h2>
+
+<h3>
+<a id="uploadroute-optional" class="anchor" href="#uploadroute-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>uploadRoute (optional)</h3>
+
+<p>Route called to send uploaded file. It's recommended to not change this parameter except if you know exactly what you do.</p>
+
+<p><strong>Default value:</strong> kem_api_upload</p>
+
+<h3>
+<a id="uploadurl-required" class="anchor" href="#uploadurl-required" aria-hidden="true"><span class="octicon octicon-link"></span></a>uploadUrl (required)</h3>
+
+<p>Absolute url to directory where put uploaded image. I recommend you to create a function in your entity and call it like it's showen in the example:</p>
+
+<pre><code>public function getUploadRootDir()
+{
+    // absolute path to your directory where images must be saved
+    return __DIR__.'/../../../../../web/'.$this-&gt;getUploadDir();
+}
+
+public function getUploadDir()
+{
+    return 'uploads/myentity';
+}
+
+public function getAbsolutePath()
+{
+    return null === $this-&gt;image ? null : $this-&gt;getUploadRootDir().'/'.$this-&gt;image;
+}
+
+public function getWebPath()
+{
+    return null === $this-&gt;image ? null : '/'.$this-&gt;getUploadDir().'/'.$this-&gt;image;
+}
+</code></pre>
+
+<h3>
+<a id="webdir-required" class="anchor" href="#webdir-required" aria-hidden="true"><span class="octicon octicon-link"></span></a>webDir (required)</h3>
+
+<p>Url used to show your image in templates, must be relative url. If you created related functions as explained in uploadUrl section, then you can user getWebPath() function for webDir parameter.</p>
+
+<h3>
+<a id="fileext-optional" class="anchor" href="#fileext-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>fileExt (optional)</h3>
+
+<p>Permitted image extensions.</p>
+
+<p><strong>Default value:</strong> '<em>.jpg;</em>.gif;<em>.png;</em>.jpeg'</p>
+
+<h3>
+<a id="librarydir-optional" class="anchor" href="#librarydir-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>libraryDir (optional)</h3>
+
+<p>Directory to look into for images to show in image library.</p>
+
+<p><strong>Default value:</strong> uploadUrl</p>
+
+<h3>
+<a id="libraryroute-optional" class="anchor" href="#libraryroute-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>libraryRoute (optional)</h3>
+
+<p>Route called to get images to show in library. I recommend you to not change this parameter if you don't know exactly what it does.</p>
+
+<p><strong>Default value:</strong> kem_api_image_library</p>
+
+<h3>
+<a id="showlibrary-optional" class="anchor" href="#showlibrary-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>showLibrary (optional)</h3>
+
+<p>Set this to false if you don't want the user see existing images in libraryDir.</p>
+
+<p><strong>Default value:</strong> true</p>
+
+<h3>
+<a id="saveoriginal-optional" class="anchor" href="#saveoriginal-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>saveOriginal (optional)</h3>
+
+<p>Use this parameter if you want to save original file's path (for eg. to show big image in a lightbox). You have to put property name of your entity and the bundle will use it to save original file path in it.</p>
+
+<p><strong>Attention:</strong> This parameter is disabled for gallery for instance. It will be implemented soon.</p>
+
+<p><strong>Default value:</strong> false</p>
+
+<h2>
+<a id="cropconfig" class="anchor" href="#cropconfig" aria-hidden="true"><span class="octicon octicon-link"></span></a>cropConfig</h2>
+
+<h3>
+<a id="minwidth-optional" class="anchor" href="#minwidth-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>minWidth (optional)</h3>
+
+<p>Minimum with of desired image.</p>
+
+<p><strong>Default value:</strong> 1</p>
+
+<h3>
+<a id="minheight-optional" class="anchor" href="#minheight-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>minHeight (optional)</h3>
+
+<p>Minimum height of desired image.</p>
+
+<p><strong>Default value:</strong> 1</p>
+
+<h3>
+<a id="aspectratio-optional" class="anchor" href="#aspectratio-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>aspectRatio (optional)</h3>
+
+<p>True to aspect ratio of crop screen.</p>
+
+<p><strong>Default value:</strong> true</p>
+
+<h3>
+<a id="croproute-optional" class="anchor" href="#croproute-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>cropRoute (optional)</h3>
+
+<p>Route to crop action. I recommend you to not change this parameter if you don't know exactly what it does.</p>
+
+<p><strong>Default value:</strong> kem_api_crop</p>
+
+<h3>
+<a id="forceresize-optional" class="anchor" href="#forceresize-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>forceResize (optional)</h3>
+
+<p>If true, system will resize image to fit minWidth and minHeight.</p>
+
+<h3>
+<a id="thumbs-optional" class="anchor" href="#thumbs-optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>thumbs (optional)</h3>
+
+<p>Array of thums to create automaticly. System will resize images to fit maxWidth and maxHeight. It will put them in "uploadDir/cropped_images_dir/thumbs_dir/widthxheight-originalfilename.extension" so you can use included Thumb Twig extension to get them, ex:</p>
+
+<pre><code>{# your_themplate.html.twig #}
+&lt;img src="{{ entity.imagePath|thumb(45, 56) }}"
+
+</code></pre>
+
+<p><strong>New in 0.2.2:</strong> You can use 'useAsFieldImage' option to use this thumb as image field's preview (in your form you will see this thumb instead of original cropped image). Usefull when you have big cropped images.</p>
+
+<h1>
+<a id="todo-list" class="anchor" href="#todo-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO LIST</h1>
+
+<ul>
+<li>Create tests</li>
+<li>Add more comments in the code</li>
+<li>Think about removed image deletion (for now images are not deleted, you have to care about it by yourself…)</li>
+<li>Update existing images list dynamicly after an image upload</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/kuldipem">kuldipem</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
