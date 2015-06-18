@@ -1,6 +1,5 @@
-Use 0.X releases for compatibility with bootstrap 2.x.
 ------------
-Compatibility with bootstrap 2.X is no more maintained
+Compatibility with bootstrap 3.X
 ------------
 
 KemImageBundle
@@ -13,9 +12,9 @@ It uses bootstrap to make it look well but you can use any other css to customiz
 
 It uses beautiful [Jquery File Upload](http://blueimp.github.io/jQuery-File-Upload/) to upload files (original UploadHandler has been modified to add namespace and a new config parameter to generate random filenames) and [JCrop](http://deepliquid.com/content/Jcrop.html) to let you crop uploaded images.
 
-**New Since Version 0.2.3 !! you can also save original file in a separate field** See saveOriginal parameter below.
+you can also save original file in a separate field** See saveOriginal parameter below.
 
-**New Since Version 0.2.0 !! you can also create sortable & croppable gallery widgets** without any specific configuration. It only needs an array typed property in your entity (and a text column in your database). See below for examples, screenshots and how to use it.
+you can also create sortable & croppable gallery widgets** without any specific configuration. It only needs an array typed property in your entity (and a text column in your database). See below for examples, screenshots and how to use it.
 
 Screen shots
 ------------
