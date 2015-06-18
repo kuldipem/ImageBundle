@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "A bundle providing fields for image upload with jquery upload and image cropping with jcrop for symfony2",
     "keywords": ["Form Type", "image", "upload", "crop", "jcrop", "jquery upload"],
-    "homepage": "https://github.com/kem/ImageBundle",
+    "homepage": "https://github.com/kuldipem/ImageBundle",
     "license": "MIT",
     "authors": [
         {
