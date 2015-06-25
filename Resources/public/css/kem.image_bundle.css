@@ -172,6 +172,10 @@
     display: none;
 }
 
-.kem-image-upload-filed{
-    display: none;
+.kem-image-uploader-model .kem-image-upload-field{
+    display: none !important;
+}
+
+.kem-image-uploader-model .kem-image-upload-progress-bar{
+    margin-top: 10px;
 }

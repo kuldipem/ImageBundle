@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="{{ asset('bundles/kemimage/css/kem.image_bundle.css') }}" type="text/css" />
 {% endblock %}
 
-<div id="image_upload_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="">
+<div id="image_upload_modal" class="modal fade kem-image-uploader-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -62,10 +62,10 @@
                             <span class="btn btn-info fileinput-button">
                                 <i class="glyphicon glyphicon-download-alt"></i>
                                 <span> {% trans %}Select a file...{% endtrans %}</span>
-                                <input class="kem-image-upload-filed" id="image_upload_file" type="file" name="image_upload_file">
+                                <input class="kem-image-upload-field" id="image_upload_file" type="file" name="image_upload_file">
                             </span>
                         </div>
-                        <div id="image_file_upload_progress" class="progress">
+                        <div id="image_file_upload_progress" class="progress kem-image-upload-progress-bar">
                             <div class="progress-bar progress-bar-success"></div>
                         </div>
                     </div>
