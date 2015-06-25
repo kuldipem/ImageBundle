@@ -85,6 +85,7 @@ function initializeImageManager(id, options){
                 'width',
                 progress + '%'
             );
+            $('#image_file_upload_progress .progress-bar').html(progress + '%');
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
@@ -100,6 +101,8 @@ function destroyImageManager(){
     destroyJCrop();
     $('#image_crop_go_now').unbind('click');
     $('#image_preview').html('<p>Please select or upload an image</p>');
+    $('#image_file_upload_progress .progress-bar').css('width','0%');
+    $('#image_file_upload_progress .progress-bar').html('0%');
 }
 
 var api;
